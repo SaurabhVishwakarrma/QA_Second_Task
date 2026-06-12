@@ -1,26 +1,26 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect } from "../fixtures/baseFixtures";
 import { BrowserWIndowsPage } from "../pages/bookTabs";
+import { Page } from "@playwright/test";
 
 
 test.describe("Browser Windows - Tab & Window Handling", () => {
-  let browserWindowsPage: BrowserWIndowsPage;
 
-  test.beforeEach(async ({ page, context }) => {
-    browserWindowsPage = new BrowserWIndowsPage(page, context);
+  test.beforeEach(async ({ page, context,browserWindowsPage }) => {
+
     await browserWindowsPage.goto();
     await browserWindowsPage.verifyPageIsVisible();
   });
 
-
-  test("TC_001: New Tab button opens a new tab", async ({ context }) => {
+  test("TC_001: New Tab button opens a new tab", async ({ context,browserWindowsPage }) => {
     const pagesBefore = context.pages().length;
     const childTab: Page = await browserWindowsPage.clickNewTab();
     expect(context.pages().length).toBe(pagesBefore + 1);
     await childTab.close();
+
   });
 
 
-  test("TC_002: New tab displays 'This is a sample page'", async () => {
+  test("TC_002: New tab displays 'This is a sample page'", async ({browserWindowsPage}) => {
     const childTab: Page = await browserWindowsPage.clickNewTab();
     const headingText = await browserWindowsPage.PageHeadingText(childTab);
     expect(headingText).toBe("This is a sample page");
@@ -31,6 +31,7 @@ test.describe("Browser Windows - Tab & Window Handling", () => {
   test("TC_003: Close child tab and switch back to parent", async ({
     page,
     context,
+    browserWindowsPage
   }) => {
     const childTab: Page = await browserWindowsPage.clickNewTab();
     expect(context.pages().length).toBe(2);
@@ -41,7 +42,7 @@ test.describe("Browser Windows - Tab & Window Handling", () => {
   });
 
 
-  test("TC_004: New Window Message opens with expected message text", async () => {
+  test("TC_004: New Window Message opens with expected message text", async ({browserWindowsPage}) => {
     const messageWindow: Page = await browserWindowsPage.clickNewWindowMessage();
     const bodyText = await messageWindow.locator("body").innerText();
     expect(bodyText).toContain(

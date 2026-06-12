@@ -1,5 +1,6 @@
 import {test, expect, type Page} from '@playwright/test'
 
+
  test(" TC__05 - Mock custom books", async ({ page }) => {
  
   await page.route(
@@ -64,7 +65,7 @@ import {test, expect, type Page} from '@playwright/test'
     page,
   }) => {
     await page.route("**/BookStore/v1/Books", async (route) => {
-      await page.waitForTimeout(5000)
+     await new Promise( resolve => setTimeout(resolve,3000))
         
     });
 
