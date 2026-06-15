@@ -1,0 +1,12 @@
+interface timeoutconfig {
+  assertion: number;
+  action : number;
+  navigation : number;
+}
+
+ const timeouts:timeoutconfig = {
+  assertion: 2000,
+  action: 2000,
+  navigation: 5000,
+};
+

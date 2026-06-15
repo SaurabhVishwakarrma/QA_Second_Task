@@ -6,28 +6,26 @@ import {test, expect, type Page} from '@playwright/test'
   await page.route(
     "**/BookStore/v1/Books",
     async route => {
- 
+   
+      const data = {
+        books: [
+          {
+            isbn: "111",
+            title: "Saurabh Vishwakarma",
+            subTitle: "QA_Engineer",
+            author: "Saurabh",
+          },
+          {
+            isbn: "222",
+            title: "Stark Industries",
+            subTitle: "Iron Man",
+            author: "Tony Stark",
+          },
+        ],
+      };
       await route.fulfill({
-     
         contentType: "application/json",
-        body: JSON.stringify({
-          books: [
-            {
-              isbn: "111",
-              title: "Saurabh Vishwakarma",
-              subTitle: "QA_Engineer",
-              author: "Saurabh",
-              
-            },
-            {
-              isbn: "222",
-              title: "Stark Industries",
-              subTitle: "Iron Man",
-              author: "Tony Stark",
-             
-            }
-          ]
-        })
+        body: JSON.stringify(data)
       });
  
     }
